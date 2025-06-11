@@ -1,0 +1,54 @@
+在 C++ 中，lambda 表达式是一种用于创建匿名函数的便捷语法。Lambda 表达式的基本形式如下：
+
+```cpp
+[capture](parameters) -> return_type {
+    // 函数体
+}
+```
+
+其中，`capture` 是捕获列表，用于捕获外部变量；`parameters` 是函数参数列表；`return_type` 是返回类型；`->` 用于指定返回类型；`{}` 内是 lambda 表达式的函数体。
+
+捕获列表 `capture` 定义了在 lambda 表达式中可见的外部变量。有三种捕获方式：
+
+1. **传值捕获 (`[=]`):** 外部变量通过值传递到 lambda 函数内部。Lambda 表达式内的变量是只读的，对其修改不会影响外部变量。
+
+    ```cpp
+    int x = 5;
+    auto lambda = [=]() {
+        std::cout << "Captured value: " << x << std::endl;
+    };
+    lambda(); // 输出: Captured value: 5
+    ```
+
+2. **引用捕获 (`[&]`):** 外部变量通过引用传递到 lambda 函数内部。通过引用捕获的变量可以在 lambda 表达式内被修改，会影响外部变量。
+
+    ```cpp
+    int y = 10;
+    auto lambda = [&]() {
+        y++;
+        std::cout << "Captured by reference: " << y << std::endl;
+    };
+    lambda(); // 输出: Captured by reference: 11
+    ```
+
+3. **混合捕获 (`[=, &x]` or `[&, x]`):** 混合捕获方式可以同时使用传值和引用捕获。在方括号内列出要捕获的变量及其方式。
+
+    ```cpp
+    int a = 2, b = 3;
+    auto lambda = [a, &b]() {
+        std::cout << "Captured by value: " << a << std::endl;
+        std::cout << "Captured by reference: " << b << std::endl;
+    };
+    lambda(); // 输出: Captured by value: 2, Captured by reference: 3
+    ```
+
+4. **不捕获任何变量 (`[]`):** 如果 lambda 表达式不需要访问外部变量，可以使用空的捕获列表。
+
+    ```cpp
+    auto lambda = []() {
+        std::cout << "No capture" << std::endl;
+    };
+    lambda(); // 输出: No capture
+    ```
+
+这些是 lambda 表达式的基本使用方式，捕获列表的选择取决于你希望如何访问外部变量。 Lambda 表达式的参数列表和函数体的使用方式与普通函数类似。
